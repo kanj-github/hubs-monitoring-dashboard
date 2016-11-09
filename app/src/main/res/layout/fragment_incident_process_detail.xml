@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.altisource.hubzu.dashboard.ui.IncidentProcessDetailFragment">
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User ID: "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/user_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/user_id"/>
+        <TextView
+            android:id="@+id/listing_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@id/user_tv"
+            android:text="Listing ID: "
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/listing_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/listing_id"/>
+        <TextView
+            android:id="@+id/created_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Created On "
+            android:textStyle="bold"
+            android:layout_below="@id/user_id"
+            android:layout_alignLeft="@id/user_id"/>
+        <TextView
+            android:id="@+id/created_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/created_on"
+            android:layout_below="@id/user_tv"/>
+        <TextView
+            android:id="@+id/component_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Component Name "
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/created_tv"
+            android:layout_alignLeft="@id/listing_id"
+            android:layout_below="@id/listing_id"/>
+        <TextView
+            android:id="@+id/component_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/component_name"
+            android:layout_below="@id/listing_tv"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
