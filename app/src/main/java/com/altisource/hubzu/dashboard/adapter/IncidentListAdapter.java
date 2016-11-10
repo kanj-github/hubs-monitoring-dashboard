@@ -41,7 +41,7 @@ public class IncidentListAdapter extends RecyclerView.Adapter<IncidentListAdapte
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.incident_list_row, parent, false);
+                .inflate(R.layout.item_incident_list, parent, false);
 
         mContext = parent.getContext();
 
