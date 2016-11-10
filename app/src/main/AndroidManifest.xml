@@ -16,14 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.IncidentProcessDetailActivity"
+            android:launchMode="singleInstance"/>
+        <activity android:name=".ui.FailureInfoActivity"
+            android:parentActivityName=".ui.IncidentProcessDetailActivity"/>
         <activity android:name=".activity.NavigationDrawerActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".dummy.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.IncidentProcessDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
     </application>
 
 </manifest>
