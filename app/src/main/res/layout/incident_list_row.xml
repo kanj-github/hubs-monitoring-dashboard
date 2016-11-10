@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:clickable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
+
+ <TextView
+        android:text="ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/status"
+        android:textStyle="bold"
+        android:id="@+id/startId" />
+
+ <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvStartTime"
+        android:layout_alignBaseline="@+id/startTime"
+        android:layout_alignBottom="@+id/startTime"
+        android:layout_alignStart="@+id/tvStartId" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/status"
+        android:layout_alignStart="@+id/tvStartTime"
+        android:id="@+id/tvStatus" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/component"
+        android:layout_alignEnd="@+id/tvStatus"
+        android:id="@+id/tvAssignedTo" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/component"
+        android:layout_alignStart="@+id/tvAssignedTo"
+        android:id="@+id/tvComponent" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:id="@+id/tvStartId"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/assignedTo" />
+
+ <TextView
+     android:text="StartTime"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="25dp"
+     android:textStyle="bold"
+     android:id="@+id/startTime"
+     android:layout_below="@+id/startId"
+     android:layout_alignParentStart="true" />
+
+ <TextView
+     android:text="Status"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textStyle="bold"
+     android:id="@+id/status"
+     android:layout_below="@+id/startTime"
+     android:layout_alignStart="@+id/startTime" />
+
+ <TextView
+     android:text="Assigned To"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textStyle="bold"
+     android:id="@+id/assignedTo"
+     android:layout_below="@+id/status"
+     android:layout_alignStart="@+id/status" />
+
+ <TextView
+        android:text="Component"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+     android:textStyle="bold"
+     android:id="@+id/component"
+     android:layout_below="@+id/assignedTo"
+     android:layout_alignStart="@+id/assignedTo" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:srcCompat="@mipmap/ic_launcher"
+
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/tvStartId"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

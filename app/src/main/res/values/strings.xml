@@ -3,6 +3,31 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <!-- Navigation Drawer menu labels -->
+    <string name="nav_monitor">Monitoring Dashboard</string>
+    <string name="nav_incident">Incident Dashboard</string>
+    <string name="nav_sign_out">Signout</string>
+
+    <string name="tv_refresh">Refresh</string>
+    <string name="tv_user_name">user name</string>
+    <string name="tv_password">password</string>
+    <string name="btn_login">Login</string>
+    <string name="tv_zero">0</string>
+    <string name="tv_name">Hi Suresh!</string>
+
+
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>Monitoring Dashboard</item>
+        <item>Incident Dashboard</item>
+        <item>Sign Out</item>
+    </string-array>
+
     <string name="msg_loading">Loading&#8230;</string>
     <string name="success">SUCCESS</string>
     <string name="failed">FAILED</string>
