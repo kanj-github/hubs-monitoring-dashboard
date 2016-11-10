@@ -1,5 +1,6 @@
 package com.altisource.hubzu.dashboard.dummy;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.altisource.hubzu.dashboard.network.DashboardWebApis;
 import com.altisource.hubzu.dashboard.network.Incident;
 import com.altisource.hubzu.dashboard.network.IncidentProcess;
 import com.altisource.hubzu.dashboard.network.IncidentWebApis;
+import com.altisource.hubzu.dashboard.ui.IncidentProcessDetailActivity;
 
 import java.io.IOException;
 import java.util.List;
@@ -62,6 +64,14 @@ public class MainActivity extends AppCompatActivity {
                 }
                 sb.deleteCharAt(sb.length() - 1); // Remove the last space
                 Log.v("Kanj", sb.toString());
+                Intent i = new Intent(MainActivity.this, IncidentProcessDetailActivity.class);
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_INCIDENT_ID, "ce6faa98-4cb3-4242-9bb7-9f4b41e36ecc");
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_USER_ID, "User id man");
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_LISTING_ID, "listing crap");
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_COMPONENT_NAME, "component stuff");
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_CREATED_ON, 1478763204657l);
+                startActivity(i);
+                finish();
             }
 
             @Override

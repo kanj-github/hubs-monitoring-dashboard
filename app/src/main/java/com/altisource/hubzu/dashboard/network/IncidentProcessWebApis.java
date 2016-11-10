@@ -16,8 +16,8 @@ import retrofit2.http.Path;
 
 public class IncidentProcessWebApis {
     public interface IncidentProcessService {
-        @GET("getProcessDetails/{id}/{page}")
-        Call<List<IncidentProcess>> getProcessListPageByIncident(
+        @GET("getProcessDetails/{incident}/{page}")
+        Call<List<IncidentProcessDetail>> getProcessDetailsPageByProcess(
                 @Path("incident") String id,
                 @Path("page") Integer page
         );

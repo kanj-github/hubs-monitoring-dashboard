@@ -5,17 +5,28 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.altisource.hubzu.dashboard.R;
+import com.altisource.hubzu.dashboard.model.ProcessDetailItem;
+import com.altisource.hubzu.dashboard.network.IncidentProcessDetail;
+import com.altisource.hubzu.dashboard.network.IncidentProcessWebApis;
+import com.altisource.hubzu.dashboard.ui.adapters.ProcessDetailsAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class IncidentProcessDetailFragment extends Fragment {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class IncidentProcessDetailFragment extends Fragment implements ProcessDetailsAdapter.OnItemClickedListener{
     private static final String ARG_INCIDENT_ID = "incidentId";
     private static final String ARG_USER_ID = "userId";
     private static final String ARG_LISTING_ID = "listingId";
@@ -30,6 +41,10 @@ public class IncidentProcessDetailFragment extends Fragment {
 
     private TextView userIdTv, listingIdTv, createdOnTv, componentNameTv;
     private RecyclerView listView;
+    private ProcessDetailsAdapter mAdapter;
+
+    private IncidentProcessWebApis.IncidentProcessService webApi;
+    private int page;
 
     public IncidentProcessDetailFragment() {
         // Required empty public constructor
@@ -55,7 +70,7 @@ public class IncidentProcessDetailFragment extends Fragment {
         args.putString(ARG_INCIDENT_ID, incidentId);
         args.putString(ARG_USER_ID, userId);
         args.putString(ARG_LISTING_ID, listingId);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MM YYYY, HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy, HH:mm");
         args.putString(ARG_CREATED_ON, sdf.format(new Date(createdMillis)));
         args.putString(ARG_COMPONENT_NAME, componentName);
         fragment.setArguments(args);
@@ -81,6 +96,7 @@ public class IncidentProcessDetailFragment extends Fragment {
         }
 
         setRetainInstance(true);
+        page = 0;
     }
 
     @Override
@@ -93,10 +109,63 @@ public class IncidentProcessDetailFragment extends Fragment {
         createdOnTv = (TextView) v.findViewById(R.id.created_tv);
         componentNameTv = (TextView) v.findViewById(R.id.component_tv);
 
+        userIdTv.setText(userId);
+        listingIdTv.setText(listingId);
+        createdOnTv.setText(createdOn);
+        componentNameTv.setText(componentName);
+
         listView = (RecyclerView) v.findViewById(R.id.list);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        if (page == 0) {
+            // We have not fetched any data
+            webApi = IncidentProcessWebApis.getService();
+            fetchListData(++page);
+        } else if (mAdapter != null) {
+            listView.setAdapter(mAdapter);
+        } else {
+            // Should not happen
+            Log.e("Kanj", "inconsistent state");
+        }
+
         return v;
+    }
+
+    private void fetchListData(int page) {
+        Call<List<IncidentProcessDetail>> call = webApi.getProcessDetailsPageByProcess(incidentId, page);
+        call.enqueue(new Callback<List<IncidentProcessDetail>>() {
+            @Override
+            public void onResponse(Call<List<IncidentProcessDetail>> call, Response<List<IncidentProcessDetail>> response) {
+                List<IncidentProcessDetail> list = response.body();
+                ArrayList<ProcessDetailItem> listItems = ProcessDetailItem.getListForAdapter(list);
+                showList(listItems);
+            }
+
+            @Override
+            public void onFailure(Call<List<IncidentProcessDetail>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void showList(ArrayList<ProcessDetailItem> items) {
+        if (mAdapter == null) {
+            mAdapter = new ProcessDetailsAdapter(items, this);
+            listView.setAdapter(mAdapter);
+        } else {
+            mAdapter.appendItemsToList(items);
+        }
+    }
+
+    @Override
+    public void onInfoCLicked(String step, String error, String trace) {
+        // Launch new activity
+        Log.v("Kanj", "info clicked");
+    }
+
+    @Override
+    public void onMoreClicked() {
+        fetchListData(++page);
     }
 
     @Override

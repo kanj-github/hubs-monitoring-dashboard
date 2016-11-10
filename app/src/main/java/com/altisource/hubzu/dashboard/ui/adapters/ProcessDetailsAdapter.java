@@ -74,11 +74,12 @@ public class ProcessDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             data.remove(data.size() - 1);
         }
         data.addAll(moreItems);
-        if (moreItems.size() == 10) {
-            // Add a "more" item
-            data.add(new ProcessDetailItem(2, null, null, null));
-        }
+
         notifyDataSetChanged();
+    }
+
+    public List<ProcessDetailItem> getListData() {
+        return data;
     }
 
     class FailureItemViewHolder extends RecyclerView.ViewHolder {
