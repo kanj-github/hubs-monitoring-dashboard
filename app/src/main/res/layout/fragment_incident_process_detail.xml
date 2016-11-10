@@ -1,27 +1,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.altisource.hubzu.dashboard.ui.IncidentProcessDetailFragment">
-    <!--<LinearLayout
-        android:layout_width="match_parent"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
         android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:orientation="horizontal">
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+        android:layout_width="match_parent"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        android:background="@color/cardview_light_background"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
+        <android.support.design.widget.TabItem
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:text="process details"/>
 
-        </RelativeLayout>
-    </LinearLayout>-->
+        <android.support.design.widget.TabItem
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="user activities"/>
+    </android.support.design.widget.TabLayout>
+
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"

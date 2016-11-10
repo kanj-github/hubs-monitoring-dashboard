@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 sb.deleteCharAt(sb.length() - 1); // Remove the last space
                 Log.v("Kanj", sb.toString());
                 Intent i = new Intent(MainActivity.this, IncidentProcessDetailActivity.class);
-                i.putExtra(IncidentProcessDetailActivity.EXTRA_INCIDENT_ID, "ce6faa98-4cb3-4242-9bb7-9f4b41e36ecc");
-                i.putExtra(IncidentProcessDetailActivity.EXTRA_USER_ID, "User id man");
-                i.putExtra(IncidentProcessDetailActivity.EXTRA_LISTING_ID, "listing crap");
-                i.putExtra(IncidentProcessDetailActivity.EXTRA_COMPONENT_NAME, "component stuff");
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_INCIDENT_ID, incidents.get(1).getTransactionId());
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_USER_ID, incidents.get(1).getUserId());
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_LISTING_ID, incidents.get(1).getSourceId());
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_COMPONENT_NAME, incidents.get(1).getComponentName());
                 i.putExtra(IncidentProcessDetailActivity.EXTRA_CREATED_ON, 1478763204657l);
                 startActivity(i);
                 finish();
