@@ -16,6 +16,7 @@ import com.altisource.hubzu.dashboard.model.ProcessDetailItem;
 import com.altisource.hubzu.dashboard.network.IncidentProcessDetail;
 import com.altisource.hubzu.dashboard.network.IncidentProcessWebApis;
 import com.altisource.hubzu.dashboard.ui.adapters.ProcessDetailsAdapter;
+import com.altisource.hubzu.dashboard.util.NetworkProgressDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -132,6 +133,7 @@ public class IncidentProcessDetailFragment extends Fragment implements ProcessDe
     }
 
     private void fetchListData(int page) {
+        NetworkProgressDialog.showProgressBar(getContext(), getString(R.string.msg_loading));
         Call<List<IncidentProcessDetail>> call = webApi.getProcessDetailsPageByProcess(incidentId, page);
         call.enqueue(new Callback<List<IncidentProcessDetail>>() {
             @Override
@@ -149,6 +151,7 @@ public class IncidentProcessDetailFragment extends Fragment implements ProcessDe
     }
 
     private void showList(ArrayList<ProcessDetailItem> items) {
+        NetworkProgressDialog.hideProgressBar();
         if (mAdapter == null) {
             mAdapter = new ProcessDetailsAdapter(items, this);
             listView.setAdapter(mAdapter);

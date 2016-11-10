@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:paddingRight="20dp"
             android:layout_alignParentRight="true"
-            android:text="SUCCESS"
+            android:text="@string/success"
             android:textColor="@android:color/holo_green_light"/>
         <TextView
             android:id="@+id/stage"
