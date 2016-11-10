@@ -11,4 +11,7 @@
     <string name="listing_id">Listing ID:</string>
     <string name="created_on">Created On</string>
     <string name="component_name">Component Name</string>
+    <string name="step_name">Step Name</string>
+    <string name="error_reason">Error Reason</string>
+    <string name="stack_trace">Stack Trace</string>
 </resources>

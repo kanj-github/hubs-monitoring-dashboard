@@ -17,7 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.IncidentProcessDetailActivity"></activity>
+        <activity android:name=".ui.IncidentProcessDetailActivity"
+            android:launchMode="singleInstance"/>
+        <activity android:name=".ui.FailureInfoActivity"
+            android:parentActivityName=".ui.IncidentProcessDetailActivity"/>
     </application>
 
 </manifest>

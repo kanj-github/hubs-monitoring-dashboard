@@ -1,6 +1,7 @@
 package com.altisource.hubzu.dashboard.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -162,8 +163,12 @@ public class IncidentProcessDetailFragment extends Fragment implements ProcessDe
 
     @Override
     public void onInfoCLicked(String step, String error, String trace) {
-        // Launch new activity
-        Log.v("Kanj", "info clicked");
+        // Launch FailureInfoActivity
+        Intent i = new Intent(getContext(), FailureInfoActivity.class);
+        i.putExtra(FailureInfoActivity.EXTRA_STAGE, step);
+        i.putExtra(FailureInfoActivity.EXTRA_ERROR, error);
+        i.putExtra(FailureInfoActivity.EXTRA_STACK, trace);
+        startActivity(i);
     }
 
     @Override
