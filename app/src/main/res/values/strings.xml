@@ -28,4 +28,13 @@
         <item>Sign Out</item>
     </string-array>
 
+    <string name="msg_loading">Loading&#8230;</string>
+    <string name="success">SUCCESS</string>
+    <string name="failed">FAILED</string>
+    <string name="more">MORE</string>
+    <string name="user_id">User ID:</string>
+    <string name="listing_id">Listing ID:</string>
+    <string name="created_on">Created On</string>
+    <string name="component_name">Component Name</string>
+
 </resources>

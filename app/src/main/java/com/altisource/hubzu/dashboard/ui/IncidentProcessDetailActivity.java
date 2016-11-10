@@ -22,22 +22,21 @@ public class IncidentProcessDetailActivity extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment frag = fm.findFragmentByTag("TAG");
-        Bundle extras = getIntent().getExtras();
-
-        if (frag == null && extras != null) {
-            frag = IncidentProcessDetailFragment.newInstance(
-                    extras.getString(EXTRA_INCIDENT_ID),
-                    extras.getString(EXTRA_USER_ID),
-                    extras.getString(EXTRA_LISTING_ID),
-                    extras.getLong(EXTRA_CREATED_ON),
-                    extras.getString(EXTRA_COMPONENT_NAME)
-            );
-        }
 
         if (frag != null) {
-            fm.beginTransaction().add(R.id.frag, frag, "TAG").commit();
+            fm.beginTransaction().replace(R.id.frag, frag, "TAG").commit();
         } else {
-            Log.e("Kanj", "fuck up");
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                frag = IncidentProcessDetailFragment.newInstance(
+                        extras.getString(EXTRA_INCIDENT_ID),
+                        extras.getString(EXTRA_USER_ID),
+                        extras.getString(EXTRA_LISTING_ID),
+                        extras.getLong(EXTRA_CREATED_ON),
+                        extras.getString(EXTRA_COMPONENT_NAME)
+                );
+                fm.beginTransaction().add(R.id.frag, frag, "TAG").commit();
+            }
         }
     }
 }
