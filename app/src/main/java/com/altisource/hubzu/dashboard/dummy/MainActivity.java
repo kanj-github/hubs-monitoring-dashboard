@@ -12,6 +12,7 @@ import com.altisource.hubzu.dashboard.network.Incident;
 import com.altisource.hubzu.dashboard.network.IncidentProcess;
 import com.altisource.hubzu.dashboard.network.IncidentWebApis;
 import com.altisource.hubzu.dashboard.ui.IncidentProcessDetailActivity;
+import com.altisource.hubzu.dashboard.ui.PendingIncidentsActivity;
 
 import java.io.IOException;
 import java.util.List;
@@ -64,12 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 sb.deleteCharAt(sb.length() - 1); // Remove the last space
                 Log.v("Kanj", sb.toString());
-                Intent i = new Intent(MainActivity.this, IncidentProcessDetailActivity.class);
+                /*Intent i = new Intent(MainActivity.this, IncidentProcessDetailActivity.class);
                 i.putExtra(IncidentProcessDetailActivity.EXTRA_INCIDENT_ID, incidents.get(1).getTransactionId());
                 i.putExtra(IncidentProcessDetailActivity.EXTRA_USER_ID, incidents.get(1).getUserId());
                 i.putExtra(IncidentProcessDetailActivity.EXTRA_LISTING_ID, incidents.get(1).getSourceId());
                 i.putExtra(IncidentProcessDetailActivity.EXTRA_COMPONENT_NAME, incidents.get(1).getComponentName());
-                i.putExtra(IncidentProcessDetailActivity.EXTRA_CREATED_ON, 1478763204657l);
+                i.putExtra(IncidentProcessDetailActivity.EXTRA_CREATED_ON, 1478763204657l);*/
+                Intent i = new Intent(MainActivity.this, PendingIncidentsActivity.class);
                 startActivity(i);
                 finish();
             }
