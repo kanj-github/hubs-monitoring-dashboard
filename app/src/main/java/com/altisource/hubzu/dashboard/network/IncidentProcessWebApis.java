@@ -21,6 +21,13 @@ public class IncidentProcessWebApis {
                 @Path("incident") String id,
                 @Path("page") Integer page
         );
+
+        @GET("getUserActivityDetails/{user}/{listing}/submit%20bid/{page}")
+        Call<List<UserActivity>> getUserActivitiesPageByListingId (
+                @Path("user") String userId,
+                @Path("listing") String listingId,
+                @Path("page") Integer page
+        );
     }
 
     private static final Retrofit retrofit = new Retrofit.Builder()

@@ -45,4 +45,5 @@
     <string name="step_name">Step Name</string>
     <string name="error_reason">Error Reason</string>
     <string name="stack_trace">Stack Trace</string>
+    <string name="failure_info_title">Description</string>
 </resources>

@@ -78,10 +78,6 @@ public class ProcessDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
-    public List<ProcessDetailItem> getListData() {
-        return data;
-    }
-
     class FailureItemViewHolder extends RecyclerView.ViewHolder {
         TextView stageTv;
 
