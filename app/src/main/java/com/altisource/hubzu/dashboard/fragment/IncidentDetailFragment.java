@@ -33,14 +33,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class IncidentDetailFragment extends Fragment {
-
-    private OnFragmentInteractionListener mListener;
-
-    private List<IncidentDetail> incidentList = new ArrayList<>();
+public class IncidentDetailFragment extends Fragment implements IncidentDetailListAdapter.OnItemClickedListener {
     private RecyclerView mRecyclerView;
     private IncidentDetailListAdapter mAdapter;
-    private DashboardWebApis.DashboardWebService webApis;
     private IncidentWebApis.IncidentWebService incidentWebApi;
 
     public IncidentDetailFragment() {
@@ -61,37 +56,24 @@ public class IncidentDetailFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.incidentRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
 
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Toast.makeText(getActivity(),"click2"+position,Toast.LENGTH_SHORT).show();
-                        /*Toast.makeText(getActivity(),"click2"+position,Toast.LENGTH_SHORT).show();
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        IncidentDetailFragment id = new IncidentDetailFragment();
-                        fm.beginTransaction().add(R.id.frag, id, "TAG2").commit();
-*/
-                    }
-                }));
-
-       // fetchProcessListForIncident(730L);
-
         return view;
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onIncidentSelected(String transactionId, String userId, String listingId, String component, Long createdOn) {
+        Intent i = new Intent(getContext(), IncidentProcessDetailActivity.class);
+        i.putExtra(IncidentProcessDetailActivity.EXTRA_INCIDENT_ID, transactionId);
+        i.putExtra(IncidentProcessDetailActivity.EXTRA_USER_ID, userId);
+        i.putExtra(IncidentProcessDetailActivity.EXTRA_LISTING_ID, listingId);
+        i.putExtra(IncidentProcessDetailActivity.EXTRA_COMPONENT_NAME, component);
+        i.putExtra(IncidentProcessDetailActivity.EXTRA_CREATED_ON, createdOn);
+        startActivity(i);
     }
 
+    // TODO: handle more button click here
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+    public void onMoreClicked() {
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 
     private void fetchProcessListForIncident(Long id) {
@@ -131,7 +113,7 @@ public class IncidentDetailFragment extends Fragment {
     private void showList(ArrayList<IncidentDetail> items) {
         // NetworkProgressDialog.hideProgressBar();
         //if (mAdapter == null) {
-            mAdapter = new IncidentDetailListAdapter(items, getActivity().getApplicationContext());
+            mAdapter = new IncidentDetailListAdapter(items, this);
             mRecyclerView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         /*} else {
