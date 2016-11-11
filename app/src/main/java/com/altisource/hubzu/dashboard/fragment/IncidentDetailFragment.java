@@ -111,13 +111,7 @@ public class IncidentDetailFragment extends Fragment implements IncidentDetailLi
 
 
     private void showList(ArrayList<IncidentDetail> items) {
-        // NetworkProgressDialog.hideProgressBar();
-        //if (mAdapter == null) {
-            mAdapter = new IncidentDetailListAdapter(items, this);
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-        /*} else {
-            // mAdapter.appendItemsToList(items);
-        }*/
+        mAdapter = new IncidentDetailListAdapter(items, this);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }
