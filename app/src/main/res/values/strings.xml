@@ -19,6 +19,12 @@
     <string name="btn_login">Login</string>
     <string name="tv_zero">0</string>
     <string name="tv_name">Hi Suresh!</string>
+    <string name="tv_failed_bid">Failed Bids</string>
+    <string name="tv_incomplete_bid">Incomplete Bids</string>
+    <string name="tv_user_id">User Id</string>
+    <string name="tv_listing_id">Listing Id</string>
+    <string name="tv_created_on">Created On</string>
+    <string name="tv_component_name">Component Name</string>
 
 
     <!-- Toolbar titles when navigation menu item is selected -->

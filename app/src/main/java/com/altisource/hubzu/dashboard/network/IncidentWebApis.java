@@ -9,6 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import com.altisource.hubzu.dashboard.model.IncidentDetail;
 
 /**
  * Created by naraykan on 09/11/16.
@@ -20,7 +21,7 @@ public class IncidentWebApis {
         Call<List<Incident>> getIncidentListPage(@Path("page") Integer page);
 
         @GET("getProcessListByIncidentId/{incident}/{page}")
-        Call<List<IncidentProcess>> getProcessListPageByIncident(
+        Call<List<IncidentDetail>> getProcessListPageByIncident(
                 @Path("incident") Long incident,
                 @Path("page") Integer page
         );

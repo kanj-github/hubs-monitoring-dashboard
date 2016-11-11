@@ -9,7 +9,7 @@ import com.altisource.hubzu.dashboard.R;
  * Created by naraykan on 10/11/16.
  */
 
-class MoreItemViewHolder extends RecyclerView.ViewHolder {
+public class MoreItemViewHolder extends RecyclerView.ViewHolder {
     OnMoreClickedListener listener;
 
     public MoreItemViewHolder(View itemView, final OnMoreClickedListener listener) {

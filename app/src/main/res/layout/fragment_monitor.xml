@@ -25,7 +25,7 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/tv_incident1"
+                    android:id="@+id/tvIncidentFail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -33,6 +33,14 @@
                     android:textSize="22sp"
                     android:background="@drawable/ic_circle"
                     android:textColor="@color/colorRed" />
+
+                <TextView
+                    android:text="@string/tv_failed_bid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:id="@+id/tvFailedBid" />
 
             </LinearLayout>
 
@@ -45,7 +53,7 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/tv_incident2"
+                    android:id="@+id/tvIncidentIncomplete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -53,6 +61,14 @@
                     android:text="@string/tv_zero"
                     android:background="@drawable/ic_circle"
                     android:textColor="@color/colorOrange" />
+
+                <TextView
+                    android:text="@string/tv_incomplete_bid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:id="@+id/tvIncompleteBid" />
 
             </LinearLayout>
 

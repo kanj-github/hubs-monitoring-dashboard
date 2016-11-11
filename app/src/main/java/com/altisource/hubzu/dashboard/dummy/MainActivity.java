@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.altisource.hubzu.dashboard.R;
+import com.altisource.hubzu.dashboard.model.IncidentDetail;
 import com.altisource.hubzu.dashboard.network.DashboardWebApis;
 import com.altisource.hubzu.dashboard.network.Incident;
 import com.altisource.hubzu.dashboard.network.IncidentProcess;
@@ -14,6 +15,7 @@ import com.altisource.hubzu.dashboard.network.IncidentWebApis;
 import com.altisource.hubzu.dashboard.ui.IncidentProcessDetailActivity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -52,18 +54,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchProcessListForIncident(Long id) {
         // Fetches page 1 by default
-        Call<List<IncidentProcess>> call3 = incidentWebApi.getProcessListPageByIncident(id, 1);
-        call3.enqueue(new Callback<List<IncidentProcess>>() {
+        Call<List<IncidentDetail>> call3 = incidentWebApi.getProcessListPageByIncident(id, 1);
+        call3.enqueue(new Callback<List<IncidentDetail>>() {
             @Override
-            public void onResponse(Call<List<IncidentProcess>> call, Response<List<IncidentProcess>> response) {
-                List<IncidentProcess> incidents = response.body();
-                Log.v("Kanj", "got " + incidents.size() + " processes");
+            public void onResponse(Call<List<IncidentDetail>> call, Response<List<IncidentDetail>> response) {
+                List<IncidentDetail> incidents = response.body();
+                Log.v("Incident Detail", "got " + incidents.size() + " processes");
                 StringBuilder sb = new StringBuilder();
-                for (IncidentProcess i: incidents) {
+                for (IncidentDetail i: incidents) {
                     sb.append(i.toString()).append(" ");
                 }
                 sb.deleteCharAt(sb.length() - 1); // Remove the last space
-                Log.v("Kanj", sb.toString());
+                Log.v("Incident Detail", sb.toString());
                 Intent i = new Intent(MainActivity.this, IncidentProcessDetailActivity.class);
                 i.putExtra(IncidentProcessDetailActivity.EXTRA_INCIDENT_ID, "ce6faa98-4cb3-4242-9bb7-9f4b41e36ecc");
                 i.putExtra(IncidentProcessDetailActivity.EXTRA_USER_ID, "User id man");
@@ -71,12 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra(IncidentProcessDetailActivity.EXTRA_COMPONENT_NAME, "component stuff");
                 i.putExtra(IncidentProcessDetailActivity.EXTRA_CREATED_ON, 1478763204657l);
                 startActivity(i);
-                finish();
             }
 
             @Override
-            public void onFailure(Call<List<IncidentProcess>> call, Throwable t) {
-                Log.v("Kanj", "failed to get processes");
+            public void onFailure(Call<List<IncidentDetail>> call, Throwable t) {
+                Log.v("Incident detail", "failed to get processes");
             }
         });
     }

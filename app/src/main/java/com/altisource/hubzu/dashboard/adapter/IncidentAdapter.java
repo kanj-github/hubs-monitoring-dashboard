@@ -1,37 +1,33 @@
 package com.altisource.hubzu.dashboard.adapter;
 
 /**
- * Created by sunilhl on 04/11/16.
+ * Created by sunilhl on 11/11/16.
  */
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.altisource.hubzu.dashboard.R;
-import com.altisource.hubzu.dashboard.model.IncidentDetail;
-import com.altisource.hubzu.dashboard.model.ProcessDetailItem;
 import com.altisource.hubzu.dashboard.network.Incident;
 import com.altisource.hubzu.dashboard.ui.adapters.MoreItemViewHolder;
-import com.altisource.hubzu.dashboard.ui.adapters.ProcessDetailsAdapter;
-import com.altisource.hubzu.dashboard.listener.OnLoadMoreListener;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class IncidentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+public class IncidentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Incident> mIncidentList;
     private Context mContext;
     private IncidentListAdapter.OnItemClickedListener listener;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
-    public IncidentListAdapter(List<Incident> incidentList,IncidentListAdapter.OnItemClickedListener listener,Context context) {
+    public IncidentAdapter(List<Incident> incidentList,IncidentListAdapter.OnItemClickedListener listener,Context context) {
         this.mIncidentList = incidentList;
         this.mContext = context;
         this.listener = listener;
@@ -40,7 +36,7 @@ public class IncidentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     // // 0 - success, 1 - fail, 2 - more
     @Override
     public int getItemViewType(int position) {
-        return mIncidentList.get(position).getType();
+        return mIncidentList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -58,6 +54,16 @@ public class IncidentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+
+        public LoadingViewHolder(View itemView) {
+            super(itemView);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar1);
+        }
+    }
+
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -65,13 +71,14 @@ public class IncidentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (viewType) {
             case 0:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_incident_list, parent, false);
-                return new IncidentListAdapter.MyViewHolder(v);
+                return new IncidentAdapter.MyViewHolder(v);
             case 2:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_more, parent, false);
                 return new MoreItemViewHolder(v, listener);
             default:
                 return null;
-        }
+
+      }
     }
 
     @Override
@@ -88,18 +95,5 @@ public class IncidentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return mIncidentList.size();
     }
-
-    public void appendItemsToList(ArrayList<Incident> moreItems) {
-        /*if (mIncidentList.get(mIncidentList.size() - 1).getType() == 2) {
-            // Should always be true. Remove the last "more" item
-            mIncidentList.remove(mIncidentList.size() - 1);
-        }*/
-        mIncidentList.addAll(moreItems);
-
-        notifyDataSetChanged();
-    }
-
-    public interface OnItemClickedListener extends MoreItemViewHolder.OnMoreClickedListener {
-        void onInfoCLicked(String step, String error, String trace);
-    }
 }
+

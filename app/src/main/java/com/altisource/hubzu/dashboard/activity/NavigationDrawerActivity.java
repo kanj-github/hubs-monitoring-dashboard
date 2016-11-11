@@ -65,6 +65,13 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mFab = (FloatingActionButton) findViewById(R.id.fab);
 
+        /*ActionBarDrawerToggle  mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                mDrawer,
+                R.drawable.ic_logo,
+                R.string.app_name,
+                R.string.app_name);*/
+
 
         // Navigation view header
         mNavHeader = mNavigationView.getHeaderView(0);
