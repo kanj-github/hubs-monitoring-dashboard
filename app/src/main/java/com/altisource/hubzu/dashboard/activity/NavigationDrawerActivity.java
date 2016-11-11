@@ -57,21 +57,10 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-       // getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-
         mHandler = new Handler();
-
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mFab = (FloatingActionButton) findViewById(R.id.fab);
-
-        /*ActionBarDrawerToggle  mDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                mDrawer,
-                R.drawable.ic_logo,
-                R.string.app_name,
-                R.string.app_name);*/
-
 
         // Navigation view header
         mNavHeader = mNavigationView.getHeaderView(0);
@@ -181,6 +170,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         mNavigationView.getMenu().getItem(navItemIndex).setChecked(true);
     }
 
+
     private void setUpNavigationView() {
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -238,11 +228,14 @@ public class NavigationDrawerActivity extends AppCompatActivity {
             }
         };
 
+
+        //actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+
         //Setting the actionbarToggle to drawer layout
         mDrawer.setDrawerListener(actionBarDrawerToggle);
 
         //calling sync state is necessary or else your hamburger icon wont show up
-        actionBarDrawerToggle.syncState();
+        //actionBarDrawerToggle.syncState();
     }
 
     @Override
@@ -280,6 +273,14 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         return true;
     }
 
+   /* @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item= menu.findItem(R.id.menu_settings);
+        item.setVisible(false);
+        super.onPrepareOptionsMenu(menu);
+        return true;
+    }*/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -288,11 +289,11 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_logout) {
+        /*if (id == R.id.action_logout) {
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
             return true;
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 
