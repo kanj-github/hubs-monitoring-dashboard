@@ -46,4 +46,5 @@
     <string name="error_reason">Error Reason</string>
     <string name="stack_trace">Stack Trace</string>
     <string name="failure_info_title">Description</string>
+    <string name="msg_no_failed_bigs">No Failed Bids</string>
 </resources>

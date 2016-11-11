@@ -4,26 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.altisource.hubzu.dashboard.R;
-import com.altisource.hubzu.dashboard.dummy.MainActivity;
 import com.altisource.hubzu.dashboard.network.DashboardWebApis;
-import com.altisource.hubzu.dashboard.network.Incident;
-import com.altisource.hubzu.dashboard.network.IncidentProcess;
-import com.altisource.hubzu.dashboard.network.IncidentWebApis;
-import com.altisource.hubzu.dashboard.ui.IncidentProcessDetailActivity;
-
-import org.w3c.dom.Text;
+import com.altisource.hubzu.dashboard.ui.PendingIncidentsActivity;
 
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -36,7 +29,6 @@ public class MonitorFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Integer failedCount;
     private DashboardWebApis.DashboardWebService webApis;
-    private IncidentWebApis.IncidentWebService incidentWebApi;
     private TextView tvFailedBid;
 
     public MonitorFragment() {
@@ -52,8 +44,19 @@ public class MonitorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_monitor, container, false);
+        final View view = inflater.inflate(R.layout.fragment_monitor, container, false);
         tvFailedBid = (TextView) view.findViewById(R.id.tvIncidentFail);
+        tvFailedBid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (failedCount != null && failedCount > 0) {
+                    Intent i = new Intent(getContext(), PendingIncidentsActivity.class);
+                    startActivity(i);
+                } else {
+                    Snackbar.make(view, R.string.msg_no_failed_bigs, Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
         fetchData();
         if (failedCount == null) {
             fetchData();
@@ -95,20 +98,15 @@ public class MonitorFragment extends Fragment {
     }
 
     private void showData() {
-        Toast.makeText(getActivity(),"failedCount",Toast.LENGTH_SHORT).show();
         tvFailedBid.setText("" + failedCount);
     }
 
     class FailCountCallback implements Callback<ResponseBody> {
         @Override
         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-            Log.v("Kanj","got fail count response");
-            if (tvFailedBid == null) {
-                Log.v("Kanj","tv is null");
-            } else {
+            if (tvFailedBid != null) {
                 try {
                     failedCount = Integer.parseInt(response.body().string());
-                    Log.v("Kanj", "" + failedCount);
                     showData();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -118,7 +116,7 @@ public class MonitorFragment extends Fragment {
 
         @Override
         public void onFailure(Call<ResponseBody> call, Throwable t) {
-            Log.v("Kanj","got fail count failure");
+            Log.e("Kanj","got fail count failure");
         }
     }
 
