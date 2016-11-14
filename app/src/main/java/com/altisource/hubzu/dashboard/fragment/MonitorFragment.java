@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.altisource.hubzu.dashboard.R;
+import com.altisource.hubzu.dashboard.activity.NavigationDrawerActivity;
 import com.altisource.hubzu.dashboard.network.DashboardWebApis;
 import com.altisource.hubzu.dashboard.ui.PendingIncidentsActivity;
+import com.altisource.hubzu.dashboard.util.NetworkProgressDialog;
 
 import java.io.IOException;
 
@@ -65,6 +67,7 @@ public class MonitorFragment extends Fragment {
     }
 
     private void fetchData() {
+        NetworkProgressDialog.showProgressBar(getContext(), getString(R.string.msg_loading));
         webApis = DashboardWebApis.getService();
         Call<ResponseBody> call = webApis.getFailedCount();
         call.enqueue(new FailCountCallback());
@@ -104,6 +107,7 @@ public class MonitorFragment extends Fragment {
     class FailCountCallback implements Callback<ResponseBody> {
         @Override
         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            NetworkProgressDialog.hideProgressBar();
             if (tvFailedBid != null) {
                 try {
                     failedCount = Integer.parseInt(response.body().string());
@@ -116,6 +120,7 @@ public class MonitorFragment extends Fragment {
 
         @Override
         public void onFailure(Call<ResponseBody> call, Throwable t) {
+            NetworkProgressDialog.hideProgressBar();
             Log.e("Kanj","got fail count failure");
         }
     }

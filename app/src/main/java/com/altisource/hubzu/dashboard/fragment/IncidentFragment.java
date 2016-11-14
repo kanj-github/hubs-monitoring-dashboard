@@ -1,124 +1,133 @@
 package com.altisource.hubzu.dashboard.fragment;
 
+/**
+ * Created by sunilhl on 13/11/16.
+ */
+
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.altisource.hubzu.dashboard.R;
-import com.altisource.hubzu.dashboard.adapter.IncidentListAdapter;
-import com.altisource.hubzu.dashboard.dummy.MainActivity;
-import com.altisource.hubzu.dashboard.model.ProcessDetailItem;
-import com.altisource.hubzu.dashboard.network.DashboardWebApis;
-import com.altisource.hubzu.dashboard.network.Incident;
-import com.altisource.hubzu.dashboard.network.IncidentProcessWebApis;
+import com.altisource.hubzu.dashboard.activity.NavigationDrawerActivity;
+import com.altisource.hubzu.dashboard.adapter.IncidentAdapter;
+import com.altisource.hubzu.dashboard.model.AIncident;
+import com.altisource.hubzu.dashboard.model.AIncidentMore;
 import com.altisource.hubzu.dashboard.network.IncidentWebApis;
-import com.altisource.hubzu.dashboard.ui.adapters.ProcessDetailsAdapter;
 import com.altisource.hubzu.dashboard.util.NetworkProgressDialog;
-import com.altisource.hubzu.dashboard.util.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import com.altisource.hubzu.dashboard.network.IncidentMore;
 
-public class IncidentFragment extends Fragment implements IncidentListAdapter.OnItemClickedListener{
+public class IncidentFragment extends Fragment implements IncidentAdapter.OnItemClickedListener{
+    private RecyclerView listView;
+    private IncidentAdapter mAdapter;
+    private IncidentWebApis.IncidentWebService webApi;
+    private String incidentId;
+    private static final String ARG_ID = "id";
 
-    private OnFragmentInteractionListener mListener;
-
-    private List<Incident> incidentList = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private IncidentListAdapter mAdapter;
-    private DashboardWebApis.DashboardWebService webApis;
-    private IncidentWebApis.IncidentWebService incidentWebApi;
     private int page;
 
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
     public IncidentFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            Bundle args = getArguments();
+            incidentId = args.getString(ARG_ID);
+        } else if (savedInstanceState != null) {
+            incidentId = savedInstanceState.getString(ARG_ID);
+        }
+
+        setRetainInstance(true);
         page = 0;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_incident, container, false);
+        listView = (RecyclerView) view.findViewById(R.id.list);
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        View view =inflater.inflate(R.layout.fragment_incident, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        //mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Toast.makeText(getActivity(),"click1"+position,Toast.LENGTH_SHORT).show();
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        IncidentDetailFragment ids = new IncidentDetailFragment();
-                        fm.beginTransaction().replace(R.id.frag, ids, "TAG2").commit();
-                    }
-                }));
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        NavigationDrawerActivity.navBack.setVisibility(View.VISIBLE);
+        NavigationDrawerActivity.navBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-
-               // Toast.makeText(getActivity(), "Item count"+totalItemCount,Toast.LENGTH_LONG).show();
-                //Toast.makeText(getActivity(), "lastVisibleItem"+lastVisibleItem,Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
+                //getFragmentManager().popBackStack();
+                NavigationDrawerActivity.navBack.setVisibility(View.INVISIBLE);
+                MonitorFragment fragment = new MonitorFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame, fragment, "monitor");
+                fragmentTransaction.commit();
+                //invalidateOptionsMenu();
             }
         });
 
-        //fetchData(page);
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            listView = (RecyclerView) view;
+            listView.setLayoutManager(new LinearLayoutManager(context));
+            //listView.setAdapter(mAdapter);
 
-        if (page == 0) {
-            // We have not fetched any data
-            incidentWebApi = IncidentWebApis.getService();
-            fetchData(++page);
-        } else if (mAdapter != null) {
-            mRecyclerView.setAdapter(mAdapter);
-        } else {
-            // Should not happen
+            if (page == 0) {
+                // We have not fetched any data; view is being created for the first time
+                webApi = IncidentWebApis.getService();
+                fetchData(++page);
+            } else if (mAdapter != null) {
+                listView.setAdapter(mAdapter);
+            } else {
+                Log.e("Kanj", "Inconsistent state man");
+            }
         }
 
         return view;
     }
 
+    private void fetchData(final int page) {
+        NetworkProgressDialog.showProgressBar(getContext(), getString(R.string.msg_loading));
+        Call<List<AIncidentMore>> call = webApi.getIncidentListPage(page);
+        call.enqueue(new Callback<List<AIncidentMore>>() {
+            @Override
+            public void onResponse(Call<List<AIncidentMore>> call, Response<List<AIncidentMore>> response) {
+                List<AIncidentMore> list = response.body();
+                showList(AIncident.getListForAdapter(list));
+            }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+            @Override
+            public void onFailure(Call<List<AIncidentMore>> call, Throwable t) {
+                Log.e("Kanj", "Failed to get pending incident list page " + page);
+                NetworkProgressDialog.hideProgressBar();
+            }
+        });
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
-    public void onInfoCLicked(String step, String error, String trace) {
-
+    private void showList(ArrayList<AIncident> items) {
+        NetworkProgressDialog.hideProgressBar();
+        if (mAdapter == null) {
+            mAdapter = new IncidentAdapter(items, this);
+            listView.setAdapter(mAdapter);
+        } else {
+            mAdapter.appendItemsToList(items);
+        }
     }
 
     @Override
@@ -126,40 +135,27 @@ public class IncidentFragment extends Fragment implements IncidentListAdapter.On
         fetchData(++page);
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
+   /* @Override
+    public void onInfoCLicked(String step, String error, String trace) {
+       // Toast.makeText(getActivity(),"info clicked",Toast.LENGTH_SHORT);
+       *//**//* Intent i = new Intent(getContext(), FailureInfoActivity.class);
+        i.putExtra(FailureInfoActivity.EXTRA_ERROR, error);
+        i.putExtra(FailureInfoActivity.EXTRA_STACK, trace);
+        startActivity(i);*//**//*
+    }*/
 
-    private void fetchData(int page) {
-        NetworkProgressDialog.showProgressBar(getContext(), getString(R.string.msg_loading));
-        //incidentWebApi = IncidentWebApis.getService();
-        Call<List<Incident>> call2 = incidentWebApi.getIncidentListPage(page);
-        call2.enqueue(new IncidentListCallback());
-    }
 
-    public class IncidentListCallback implements Callback<List<Incident>> {
-        @Override
-        public void onResponse(Call<List<Incident>> call, Response<List<Incident>> response) {
-            List<Incident> incidents = response.body();
-           // ArrayList<Incident> listItems = Incident.getListForAdapter(incidents);
-            showList((ArrayList<Incident>) incidents);
-            Log.v("Incident web call", "got " + incidents.size() + " incidents");
-        }
 
-        @Override
-        public void onFailure(Call<List<Incident>> call, Throwable t) {
-            Log.v("Incident web call", "failed to get incident list");
-        }
-    }
+    @Override
+    public void onIncidentSelected(Long Id) {
+        //Toast.makeText(getActivity(),String.valueOf(Id),Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        IncidentDetailFragment ids = new IncidentDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("id", String.valueOf(Id));
+        ids.setArguments(bundle);
 
-    private void showList(ArrayList<Incident> items) {
-        NetworkProgressDialog.hideProgressBar();
-        if (mAdapter == null) {
-            mAdapter = new IncidentListAdapter(items, this, getActivity().getApplicationContext());
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.notifyDataSetChanged();
-        } else {
-            mAdapter.appendItemsToList(items);
-       }
+      //  fm.beginTransaction().replace(R.id.list, ids, "TAG2").commit();
+        fm.beginTransaction().replace(R.id.frame, ids).addToBackStack(null).commit();
     }
 }

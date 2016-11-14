@@ -63,8 +63,9 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@mipmap/ic_launcher"
+            android:background="@drawable/ic_next"
             android:id="@+id/imageView2"
+            android:visibility="invisible"
             android:layout_below="@+id/tvUserId"
             android:layout_alignParentEnd="true" />
 

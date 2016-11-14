@@ -5,22 +5,16 @@ package com.altisource.hubzu.dashboard.adapter;
  */
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+import com.altisource.hubzu.dashboard.network.Incident;
 
 import com.altisource.hubzu.dashboard.R;
-import com.altisource.hubzu.dashboard.model.IncidentDetail;
-import com.altisource.hubzu.dashboard.model.ProcessDetailItem;
-import com.altisource.hubzu.dashboard.network.Incident;
 import com.altisource.hubzu.dashboard.ui.adapters.MoreItemViewHolder;
-import com.altisource.hubzu.dashboard.ui.adapters.ProcessDetailsAdapter;
-import com.altisource.hubzu.dashboard.listener.OnLoadMoreListener;
 
 import java.util.ArrayList;
 import java.util.List;

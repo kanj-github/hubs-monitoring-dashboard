@@ -1,11 +1,9 @@
 package com.altisource.hubzu.dashboard.fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,16 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.altisource.hubzu.dashboard.R;
+import com.altisource.hubzu.dashboard.activity.NavigationDrawerActivity;
 import com.altisource.hubzu.dashboard.adapter.IncidentDetailListAdapter;
-import com.altisource.hubzu.dashboard.adapter.IncidentListAdapter;
 import com.altisource.hubzu.dashboard.model.IncidentDetail;
-import com.altisource.hubzu.dashboard.network.DashboardWebApis;
-import com.altisource.hubzu.dashboard.network.Incident;
-import com.altisource.hubzu.dashboard.network.IncidentProcess;
 import com.altisource.hubzu.dashboard.network.IncidentWebApis;
 import com.altisource.hubzu.dashboard.ui.IncidentProcessDetailActivity;
-import com.altisource.hubzu.dashboard.ui.IncidentProcessDetailFragment;
-import com.altisource.hubzu.dashboard.util.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +30,7 @@ public class IncidentDetailFragment extends Fragment implements IncidentDetailLi
     private RecyclerView mRecyclerView;
     private IncidentDetailListAdapter mAdapter;
     private IncidentWebApis.IncidentWebService incidentWebApi;
+    private static String ARG_ID = "id";
 
     public IncidentDetailFragment() {
         // Required empty public constructor
@@ -44,7 +38,13 @@ public class IncidentDetailFragment extends Fragment implements IncidentDetailLi
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            Bundle args = getArguments();
+            ARG_ID = args.getString("id");
+        }
     }
 
     @Override
@@ -52,9 +52,24 @@ public class IncidentDetailFragment extends Fragment implements IncidentDetailLi
                              Bundle savedInstanceState) {
 
         View view =inflater.inflate(R.layout.fragment_incident_detail, container, false);
-        fetchProcessListForIncident(730L);
+        fetchProcessListForIncident(Long.valueOf(ARG_ID));
         mRecyclerView = (RecyclerView) view.findViewById(R.id.incidentRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+
+        NavigationDrawerActivity.navBack.setVisibility(View.VISIBLE);
+        NavigationDrawerActivity.navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+                //getFragmentManager().popBackStack();
+                /*NavigationDrawerActivity.navBack.setVisibility(View.INVISIBLE);
+                MonitorFragment fragment = new MonitorFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame, fragment, "monitor");
+                fragmentTransaction.commit();*/
+                //invalidateOptionsMenu();
+            }
+        });
 
         return view;
     }

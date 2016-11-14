@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.altisource.hubzu.dashboard.R;
+import com.altisource.hubzu.dashboard.activity.NavigationDrawerActivity;
 
 
 public class SignOutFragment extends Fragment {
@@ -28,6 +29,7 @@ public class SignOutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        NavigationDrawerActivity.navBack.setVisibility(View.INVISIBLE);
         return inflater.inflate(R.layout.fragment_signout, container, false);
     }
 

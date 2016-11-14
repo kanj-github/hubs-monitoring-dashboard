@@ -1,5 +1,6 @@
 package com.altisource.hubzu.dashboard.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -17,10 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.altisource.hubzu.dashboard.fragment.IncidentFragment;
 
 import com.altisource.hubzu.dashboard.R;
-import com.altisource.hubzu.dashboard.fragment.IncidentFragment;
 import com.altisource.hubzu.dashboard.fragment.MonitorFragment;
 import com.altisource.hubzu.dashboard.fragment.SignOutFragment;
 
@@ -39,7 +40,6 @@ public class NavigationDrawerActivity extends AppCompatActivity {
     // tags used to attach the fragments
     private static final String TAG_MONITOR = "monitor";
     private static final String TAG_INCIDENT = "incident";
-    private static final String TAG_SIGN_OUT = "signout";
 
     public static String CURRENT_TAG = TAG_MONITOR;
     // toolbar titles respected to selected nav menu item
@@ -48,6 +48,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
     // flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
+    public static ImageButton navBack,menuRight;
 
 
     @Override
@@ -57,6 +58,8 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+        mToolbar.setTitle("DASHBOARD");
+
         mHandler = new Handler();
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -65,7 +68,9 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         // Navigation view header
         mNavHeader = mNavigationView.getHeaderView(0);
         mTxtName = (TextView) mNavHeader.findViewById(R.id.name);
-        ImageButton menuRight = (ImageButton) findViewById(R.id.menuRight);
+        menuRight = (ImageButton) findViewById(R.id.menuRight);
+        navBack = (ImageButton) findViewById(R.id.nav_back);
+        navBack.setVisibility(View.INVISIBLE);
         menuRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,9 +81,6 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // load toolbar titles from string resources
-        activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,12 +111,6 @@ public class NavigationDrawerActivity extends AppCompatActivity {
 
         selectNavMenu();
         setToolbarTitle();
-
-        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
-            mDrawer.closeDrawers();
-            toggleFab();
-            return;
-        }
 
         // Sometimes, when fragment has huge data, screen seems hanging
         // when switching between navigation menus
@@ -149,21 +145,21 @@ public class NavigationDrawerActivity extends AppCompatActivity {
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-                MonitorFragment homeFragment = new MonitorFragment();
-                return homeFragment;
+                MonitorFragment monitorFragment = new MonitorFragment();
+                return monitorFragment;
             case 1:
-                IncidentFragment moviesFragment = new IncidentFragment();
-                return moviesFragment;
+                IncidentFragment incidentFragment = new IncidentFragment();
+                return incidentFragment;
             case 2:
-                SignOutFragment photosFragment = new SignOutFragment();
-                return photosFragment;
+                SignOutFragment signoutFragment = new SignOutFragment();
+                return signoutFragment;
             default:
                 return new MonitorFragment();
         }
     }
 
     private void setToolbarTitle() {
-        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
+        getSupportActionBar().setTitle("Dashboard");
     }
 
     private void selectNavMenu() {
@@ -185,29 +181,29 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                     case R.id.nav_monitor:
                         navItemIndex = 0;
                         CURRENT_TAG = TAG_MONITOR;
+                        navBack.setVisibility(View.GONE);
+                        loadHomeFragment();
                         break;
                     case R.id.nav_incident:
                         navItemIndex = 1;
                         CURRENT_TAG = TAG_INCIDENT;
+                        loadHomeFragment();
                         break;
                     case R.id.nav_signout:
                         navItemIndex = 2;
-                        CURRENT_TAG = TAG_SIGN_OUT;
+                        navBack.setVisibility(View.GONE);
+                        Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+                        startActivity(i);
                         break;
                     default:
                         navItemIndex = 0;
                 }
-
                 //Checking if the item is in checked state or not, if not make it in checked state
                 if (menuItem.isChecked()) {
                     menuItem.setChecked(false);
                 } else {
                     menuItem.setChecked(true);
                 }
-                menuItem.setChecked(true);
-
-                loadHomeFragment();
-
                 return true;
             }
         });
@@ -228,18 +224,11 @@ public class NavigationDrawerActivity extends AppCompatActivity {
             }
         };
 
-
-        //actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-
-        //Setting the actionbarToggle to drawer layout
-        mDrawer.setDrawerListener(actionBarDrawerToggle);
-
-        //calling sync state is necessary or else your hamburger icon wont show up
-        //actionBarDrawerToggle.syncState();
     }
 
     @Override
     public void onBackPressed() {
+        NavigationDrawerActivity.navBack.setVisibility(View.GONE);
         if (mDrawer.isDrawerOpen(GravityCompat.START)) {
             mDrawer.closeDrawers();
             return;
@@ -273,14 +262,6 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         return true;
     }
 
-   /* @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem item= menu.findItem(R.id.menu_settings);
-        item.setVisible(false);
-        super.onPrepareOptionsMenu(menu);
-        return true;
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -288,12 +269,12 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_logout) {
-            Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
-            return true;
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
-*/
+
         return super.onOptionsItemSelected(item);
     }
 

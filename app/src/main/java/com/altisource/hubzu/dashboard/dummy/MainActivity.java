@@ -9,14 +9,10 @@ import android.widget.TextView;
 import com.altisource.hubzu.dashboard.R;
 import com.altisource.hubzu.dashboard.model.IncidentDetail;
 import com.altisource.hubzu.dashboard.network.DashboardWebApis;
-import com.altisource.hubzu.dashboard.network.Incident;
-import com.altisource.hubzu.dashboard.network.IncidentProcess;
 import com.altisource.hubzu.dashboard.network.IncidentWebApis;
-import com.altisource.hubzu.dashboard.ui.IncidentProcessDetailActivity;
 import com.altisource.hubzu.dashboard.ui.PendingIncidentsActivity;
-
+import com.altisource.hubzu.dashboard.network.Incident;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -48,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
         Call<ResponseBody> call = webApis.getFailedCount();
         call.enqueue(new FailCountCallback());
 
-        incidentWebApi = IncidentWebApis.getService();
+        /*incidentWebApi = IncidentWebApis.getService();
         Call<List<Incident>> call2 = incidentWebApi.getIncidentListPage(1);
-        call2.enqueue(new IncidentListCallback());
+        call2.enqueue(new IncidentListCallback());*/
     }
 
     private void fetchProcessListForIncident(Long id) {
