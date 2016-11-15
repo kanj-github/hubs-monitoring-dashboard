@@ -12,7 +12,7 @@
             android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_info_outline_black_48dp"
+            android:src="@drawable/ic_info_outline_black_36dp"
             android:layout_alignParentRight="true"
             android:paddingLeft="15dp"/>
         <TextView

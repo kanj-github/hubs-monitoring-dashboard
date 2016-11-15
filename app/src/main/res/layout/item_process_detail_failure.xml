@@ -26,6 +26,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_info_outline_black_48dp" />
+            android:src="@drawable/ic_info_outline_black_36dp" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

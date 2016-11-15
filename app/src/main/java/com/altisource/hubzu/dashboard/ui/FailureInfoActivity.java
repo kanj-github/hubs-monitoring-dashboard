@@ -1,11 +1,14 @@
 package com.altisource.hubzu.dashboard.ui;
 
+import android.os.Build;
 import android.os.PersistableBundle;
-import android.support.v7.app.ActionBar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.altisource.hubzu.dashboard.R;
@@ -22,10 +25,20 @@ public class FailureInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_failure_info);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(R.string.failure_info_title);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+
+        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
 
         if (savedInstanceState != null) {

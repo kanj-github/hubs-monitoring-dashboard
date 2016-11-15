@@ -26,7 +26,8 @@
 
         <activity
             android:name=".ui.FailureInfoActivity"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".activity.NavigationDrawerActivity"
