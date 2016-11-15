@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.altisource.hubzu.dashboard.R;
+import com.altisource.hubzu.dashboard.activity.NavigationDrawerActivity;
 import com.altisource.hubzu.dashboard.model.PendingIncidentItem;
 import com.altisource.hubzu.dashboard.network.PendingIncident;
 import com.altisource.hubzu.dashboard.network.PendingIncidentsWebApis;
@@ -90,6 +91,14 @@ public class PendingIncidentsFragment extends Fragment implements PendingInciden
     }
 
     private void showList(ArrayList<PendingIncidentItem> items) {
+        NavigationDrawerActivity.navBack.setVisibility(View.VISIBLE);
+        NavigationDrawerActivity.navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationDrawerActivity.navBack.setVisibility(View.INVISIBLE);
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
         NetworkProgressDialog.hideProgressBar();
         if (mAdapter == null) {
             mAdapter = new PendingIncidentsAdapter(items, this);

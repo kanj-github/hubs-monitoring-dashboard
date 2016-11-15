@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.altisource.hubzu.dashboard.R;
+import com.altisource.hubzu.dashboard.activity.NavigationDrawerActivity;
 import com.altisource.hubzu.dashboard.model.ProcessDetailItem;
 import com.altisource.hubzu.dashboard.model.UserActivityItem;
 import com.altisource.hubzu.dashboard.network.IncidentProcessDetail;
@@ -163,6 +164,14 @@ public class IncidentProcessDetailFragment extends Fragment implements ProcessDe
             // Should not happen
             Log.e("Kanj", "inconsistent state");
         }
+
+        NavigationDrawerActivity.navBack.setVisibility(View.VISIBLE);
+        NavigationDrawerActivity.navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+    });
 
         return v;
     }

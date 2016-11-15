@@ -3,6 +3,7 @@ package com.altisource.hubzu.dashboard.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.altisource.hubzu.dashboard.adapter.IncidentDetailListAdapter;
 import com.altisource.hubzu.dashboard.model.IncidentDetail;
 import com.altisource.hubzu.dashboard.network.IncidentWebApis;
 import com.altisource.hubzu.dashboard.ui.IncidentProcessDetailActivity;
+import com.altisource.hubzu.dashboard.ui.IncidentProcessDetailFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,14 +78,35 @@ public class IncidentDetailFragment extends Fragment implements IncidentDetailLi
 
     @Override
     public void onIncidentSelected(String transactionId, String userId, String listingId, String component, Long createdOn) {
-        Intent i = new Intent(getContext(), IncidentProcessDetailActivity.class);
+        /*Intent i = new Intent(getContext(), IncidentProcessDetailActivity.class);
         i.putExtra(IncidentProcessDetailActivity.EXTRA_INCIDENT_ID, transactionId);
         i.putExtra(IncidentProcessDetailActivity.EXTRA_USER_ID, userId);
         i.putExtra(IncidentProcessDetailActivity.EXTRA_LISTING_ID, listingId);
         i.putExtra(IncidentProcessDetailActivity.EXTRA_COMPONENT_NAME, component);
         i.putExtra(IncidentProcessDetailActivity.EXTRA_CREATED_ON, createdOn);
-        startActivity(i);
-    }
+        startActivity(i);*/
+
+        //NavigationDrawerActivity.navBack.setVisibility(View.GONE);
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        Fragment frag = new IncidentProcessDetailFragment();
+        //fm.beginTransaction().replace(R.id.frag, frag, "TAG").commit();
+
+       /*if (frag != null) {
+            fm.beginTransaction().replace(R.id.frag, frag, "TAG").commit();
+        } else {*/
+           /* Bundle extras = getActivity().getIntent().getExtras();
+            if (extras != null) {*/
+                frag = IncidentProcessDetailFragment.newInstance(
+                        transactionId,
+                        userId,
+                        listingId,
+                        createdOn,
+                        component
+                );
+                fm.beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), frag).addToBackStack(null).commit();
+          //  }
+        }
+
 
     // TODO: handle more button click here
     @Override

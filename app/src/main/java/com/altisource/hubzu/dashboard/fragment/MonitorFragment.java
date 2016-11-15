@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.altisource.hubzu.dashboard.R;
 import com.altisource.hubzu.dashboard.activity.NavigationDrawerActivity;
 import com.altisource.hubzu.dashboard.network.DashboardWebApis;
 import com.altisource.hubzu.dashboard.ui.PendingIncidentsActivity;
+import com.altisource.hubzu.dashboard.ui.PendingIncidentsFragment;
 import com.altisource.hubzu.dashboard.util.NetworkProgressDialog;
 
 import java.io.IOException;
@@ -52,11 +54,20 @@ public class MonitorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (failedCount != null && failedCount > 0) {
-                    Intent i = new Intent(getContext(), PendingIncidentsActivity.class);
-                    startActivity(i);
-                } else {
+                   // Intent i = new Intent(getContext(), PendingIncidentsActivity.class);
+                    //startActivity(i);
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    //Fragment frag = fm.findFragmentByTag("TAG");
+
+                   /* if (frag != null) {
+                        fm.beginTransaction().replace(R.id.frame, frag, "TAG").commit();
+                    } else {*/
+                       Fragment frag = new PendingIncidentsFragment();
+                       fm.beginTransaction().add(R.id.frame, frag, "TAG").addToBackStack(null).commit();
+                    }
+                /*} else {
                     Snackbar.make(view, R.string.msg_no_failed_bigs, Snackbar.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
         fetchData();

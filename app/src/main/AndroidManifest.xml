@@ -34,7 +34,7 @@
 
         <activity android:name=".ui.PendingIncidentsActivity"
             android:launchMode="singleInstance"
-            android:parentActivityName=".activity.NavigationDrawerActivity"/>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <!-- Dummy activity for testing/demo -->
         <activity
